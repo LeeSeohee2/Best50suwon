@@ -2,10 +2,9 @@ const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
     const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
-    const PIXABAY_VIDEO_API_URL = `https://pixabay.com/api/videos/`;
-
+    const PIXABAY_VIDEO_API_URL = 'https://pixabay.com/api/videos/';
     const query = event.queryStringParameters.query || 'default';
-    const url = `${PIXABAY_VIDEO_API_URL}?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&video_type=all&per_page=10`;
+    const url = `${PIXABAY_VIDEO_API_URL}?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&video_type=all`;
 
     try {
         const response = await fetch(url);
