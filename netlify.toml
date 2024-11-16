@@ -1,7 +1,0 @@
-[build]
-  publish = "public"
-  command = "echo 'No build needed'"
-
-
-[context.production.environment]
-  PIXABAY_API_KEY = "${PIXABAY_API_KEY}"
