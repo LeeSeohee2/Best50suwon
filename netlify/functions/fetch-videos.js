@@ -1,15 +1,18 @@
+const fetch = require('node-fetch');
+
 exports.handler = async (event) => {
-    console.log('Event:', event); // 로그 추가
     const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
     const query = event.queryStringParameters.query || 'default';
-    console.log('Query:', query); // 로그 추가
+    const PIXABAY_VIDEO_API_URL = `https://pixabay.com/api/videos/?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&video_type=all`;
 
     try {
-        const response = await fetch(/* ... */);
-        console.log('Response:', response); // 로그 추가
-        // ...
+        const response = await fetch(PIXABAY_VIDEO_API_URL);
+        const data = await response.json();
+        return {
+            statusCode: 200,
+            body: JSON.stringify(data),
+        };
     } catch (error) {
-        console.error('Error:', error); // 로그 추가
         return {
             statusCode: 500,
             body: JSON.stringify({ error: error.message }),
