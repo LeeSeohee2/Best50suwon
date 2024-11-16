@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "build": "your-build-command" // 빌드 명령어
+    "build": "your-build-command"
   }
 }
