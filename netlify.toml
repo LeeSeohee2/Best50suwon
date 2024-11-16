@@ -1,6 +1,6 @@
 [build]
   publish = "public"
-  command = "npm run build"
+  
 
 [context.production.environment]
   PIXABAY_API_KEY = "your_pixabay_api_key"
