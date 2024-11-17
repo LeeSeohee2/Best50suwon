@@ -12,28 +12,3 @@ async function fetchVideos(query) {
         throw error;
     }
 }
-
-async function initializeSectionVideo(sectionId, query) {
-    const eventContainer = document.querySelector(`#${sectionId} .event-item`);
-    try {
-        const videos = await fetchVideos(query);
-        if (videos.length > 0) {
-            const videoURL = videos[0].videos.medium.url;
-            const videoElement = document.createElement('video');
-            videoElement.src = videoURL;
-            videoElement.autoplay = true;
-            videoElement.loop = true;
-            videoElement.muted = true;
-            eventContainer.appendChild(videoElement);
-        } else {
-            console.warn(`${sectionId} 섹션에서 비디오를 가져올 수 없습니다.`);
-        }
-    } catch (error) {
-        console.error(`${sectionId} 섹션 초기화 중 오류 발생:`, error.message);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    initializeSectionVideo('events', 'discount sunglasses');
-    initializeSectionVideo('contact-lens-reservation', 'contact lens deals');
-});
