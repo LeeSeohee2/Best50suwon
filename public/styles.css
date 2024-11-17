@@ -659,22 +659,9 @@ a {
       font-size: 0.8em; /* 버튼 텍스트 크기 축소 */
   }
 }
-/* 기존 CSS에 추가: 모바일 전용 스타일 */
 @media (max-width: 768px) {
     .events h2 {
-        font-size: 18px; /* 텍스트 크기 축소 */
-        text-align: center; /* 텍스트 중앙 정렬 */
-        margin-top: 10px; /* 상단 여백 추가 */
-        margin-bottom: 10px; /* 하단 여백 추가 */
-        line-height: 1.4; /* 줄 간격 조정 */
-    }
-
-    .navbar {
-        padding: 10px 15px; /* 모바일에서 네비게이션 바 패딩 축소 */
-    }
-
-    .navbar .logo {
-        font-size: 18px; /* 로고 텍스트 크기 축소 */
+        display: none; /* 모바일에서 h2 숨기기 */
     }
 }
 
