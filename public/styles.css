@@ -21,7 +21,7 @@ a {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.8); /* 기본 배경색 */
+  background: rgba(0, 0, 0, 0.6); /* 배경 투명도 추가 */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -67,6 +67,7 @@ a {
 .navbar .nav-links a:hover {
   color: #e60023; /* 링크 호버 시 강조 색상 */
 }
+
 
 /* 햄버거 버튼 스타일 */
 .navbar .hamburger {
