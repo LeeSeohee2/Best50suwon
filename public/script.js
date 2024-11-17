@@ -105,11 +105,11 @@ function loadFromLocalStorage(key) {
 // 네비게이션 바 스크롤 시 배경색 변경
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
 });
 
 // 모바일 메뉴 토글
@@ -118,16 +118,17 @@ const navLinks = document.querySelector('.nav-links');
 const navLinksItems = document.querySelectorAll('.nav-links a');
 
 hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-    hamburger.classList.toggle('active');
+  navLinks.classList.toggle('active');
+  hamburger.classList.toggle('active');
 });
 
 navLinksItems.forEach(item => {
-    item.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        hamburger.classList.remove('active');
-    });
+  item.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+    hamburger.classList.remove('active');
+  });
 });
+
 
 // 페이지 로드 시 초기화 함수 호출
 document.addEventListener('DOMContentLoaded', () => {
