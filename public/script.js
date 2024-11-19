@@ -139,6 +139,6 @@ navLinksItems.forEach(item => {
 
 // 페이지 로드 시 초기화 함수 호출
 document.addEventListener('DOMContentLoaded', () => {
-    initializeSectionVideo('events', 'discount sunglasses'); // 이달의 행사 섹션 초기화
+    initializeSectionVideo('events', 'discount'); // 이달의 행사 섹션 초기화
     initializeSectionVideo('contact-lens-reservation', 'networking'); // 콘택트렌즈 예약 섹션 초기화
 });
