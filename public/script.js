@@ -60,12 +60,20 @@ function insertVideo(container, videoURL) {
     videoElement.autoplay = true;
     videoElement.loop = true;
     videoElement.muted = true;
-    videoElement.playsInline = true;
+    videoElement.playsInline = true; // 모바일에서 인라인 재생 허용
+    videoElement.setAttribute('allow', 'autoplay'); // 명시적 autoplay 허용
     videoElement.style.width = '100%';
     videoElement.style.height = '100vh';
     videoElement.style.objectFit = 'cover';
 
     container.insertBefore(videoElement, container.querySelector('.event-details'));
+
+    // 사용자 상호작용 이벤트 처리 (모바일 대응)
+    document.body.addEventListener('touchstart', () => {
+        videoElement.play().catch(error => {
+            console.error('비디오 재생 중 오류:', error);
+        });
+    }, { once: true }); // 한 번만 실행
 }
 
 // 현재 날짜를 YYYY-MM-DD 형식으로 반환하는 함수
