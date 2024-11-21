@@ -102,8 +102,6 @@ a {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* 슬라이더 관련 CSS 제거됨 */
-
 /* 콘텐츠 섹션 스타일 */
 .content {
   padding: 100px 50px;
@@ -466,9 +464,6 @@ a {
   }
 }
 
-
-
-
 /* 반응형 디자인: 모바일 화면에 맞게 폰트 크기 및 이미지 조정 */
 @media (max-width: 768px) {
     /* 제품 이름 크기 및 중앙 정렬 */
@@ -659,9 +654,10 @@ a {
       font-size: 0.8em; /* 버튼 텍스트 크기 축소 */
   }
 }
+
+/* 모바일에서 .events h2 숨기기 */
 @media (max-width: 768px) {
     .events h2 {
         display: none; /* 모바일에서 h2 숨기기 */
     }
 }
-
