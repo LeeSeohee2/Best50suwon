@@ -110,12 +110,19 @@ function loadFromLocalStorage(key) {
     }
 }
 
+
 // 네비게이션 바 스크롤 시 배경색 변경
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
+    // 화면 너비가 768px 이상인 경우에만 scrolled 클래스를 추가
+    if (window.innerWidth > 768) {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
     } else {
+        // 모바일에서는 scrolled 클래스를 제거
         navbar.classList.remove('scrolled');
     }
 });
