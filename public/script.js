@@ -148,4 +148,5 @@ navLinksItems.forEach(item => {
 document.addEventListener('DOMContentLoaded', () => {
     initializeSectionVideo('events', 'discount'); // 이달의 행사 섹션 초기화
     initializeSectionVideo('contact-lens-reservation', 'networking'); // 콘택트렌즈 예약 섹션 초기화
+    initializeSectionVideo('new-glasses', 'tree'); // 새로 맞춘 안경 섹션 초기화
 });
