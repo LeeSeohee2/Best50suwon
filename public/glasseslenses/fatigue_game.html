@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조절력 테스트 게임</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            position: relative; /* 뒤로가기 버튼을 위한 위치 설정 */
+        }
+
+        /* 뒤로가기 버튼 스타일 */
+        #back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #6c757d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 30; /* 다른 요소들보다 앞에 표시되도록 설정 */
+        }
+
+        #back-btn:hover {
+            background-color: #5a6268;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #input-method-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .input-method-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .input-method-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #start-btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #start-btn:hover {
+            background-color: #218838;
+        }
+
+        #game-container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            border: 2px solid #333;
+            border-radius: 12px;
+            background-color: #f8f9fa;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .target {
+            position: absolute;
+            background-color: #dc3545;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #score, #timer {
+            font-size: 20px;
+            margin-top: 15px;
+            color: #333;
+        }
+
+        /* 애니메이션 효과 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .target.show {
+            animation: fadeIn 0.3s forwards;
+        }
+
+        /* 카운트다운 스타일 */
+        #countdown {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            color: #333;
+            display: none;
+            z-index: 10;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 850px) {
+            #game-container {
+                width: 90%;
+                height: 300px;
+            }
+        }
+
+        /* 모달 스타일 */
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+
+        #modal-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            width: 80%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        #modal-content h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        #modal-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        #close-modal-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #close-modal-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 뒤로가기 버튼 -->
+    <button id="back-btn">뒤로가기</button>
+
+    <h1>조절력 테스트 게임</h1>
+
+    <div id="input-method-container">
+        <button class="input-method-btn" id="mouse-btn">마우스 클릭</button>
+        <button class="input-method-btn" id="touch-btn">터치 스크린</button>
+    </div>
+
+    <button id="start-btn" disabled>게임 시작</button>
+    <div id="game-container">
+        <div id="countdown"></div> <!-- 카운트다운 요소 추가 -->
+    </div>
+    <div id="score">점수: 0</div>
+    <div id="timer">남은 시간: 30초</div>
+
+    <!-- 모달 창 -->
+    <div id="modal">
+        <div id="modal-content">
+            <h2>게임 결과</h2>
+            <p id="feedback">피드백 메시지</p>
+            <button id="close-modal-btn">닫기</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let timeLeft = 30;
+        let targetElement;
+        let timerInterval;
+        let gameRunning = false;
+        let inputMethod = 'mouse'; // 기본 입력 방식
+
+        const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+        const gameContainer = document.getElementById('game-container');
+        const startButton = document.getElementById('start-btn');
+        const mouseBtn = document.getElementById('mouse-btn');
+        const touchBtn = document.getElementById('touch-btn');
+        const inputMethodBtns = document.querySelectorAll('.input-method-btn');
+        const countdownElement = document.getElementById('countdown');
+
+        const modal = document.getElementById('modal');
+        const feedbackElement = document.getElementById('feedback');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const backBtn = document.getElementById('back-btn'); // 뒤로가기 버튼
+
+        // 입력 방식 선택
+        inputMethodBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                inputMethod = btn.id === 'mouse-btn' ? 'mouse' : 'touch';
+                inputMethodBtns.forEach(b => b.style.backgroundColor = '#007BFF');
+                btn.style.backgroundColor = '#0056b3';
+                startButton.disabled = false;
+            });
+        });
+
+        // 모달 창 닫기
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // 뒤로가기 버튼 기능
+        backBtn.addEventListener('click', () => {
+            window.history.back();
+        });
+
+        startButton.addEventListener('click', startGame);
+
+        function startGame() {
+            if (gameRunning) return;
+
+            gameRunning = true;
+            score = 0;
+            timeLeft = 30;
+            scoreElement.textContent = `점수: ${score}`;
+            timerElement.textContent = `남은 시간: ${timeLeft}초`;
+            countdownElement.style.display = 'block';
+            countdownElement.textContent = "3";
+
+            startButton.disabled = true;
+            mouseBtn.disabled = true;
+            touchBtn.disabled = true;
+
+            let countdownNumber = 3;
+            const countdownInterval = setInterval(() => {
+                countdownNumber--;
+                if (countdownNumber > 0) {
+                    countdownElement.textContent = countdownNumber;
+                } else if (countdownNumber === 0) {
+                    countdownElement.textContent = "시작!";
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownElement.style.display = 'none';
+                    createTarget();
+                    countdownTimer();
+                }
+            }, 1000);
+        }
+
+        function createTarget() {
+            if (!gameRunning) return;
+
+            // 목표물 크기와 위치 랜덤 설정
+            let size = Math.floor(Math.random() * 50) + 30;  // 30px ~ 80px
+            let x = Math.floor(Math.random() * (gameContainer.offsetWidth - size));
+            let y = Math.floor(Math.random() * (gameContainer.offsetHeight - size));
+
+            // 목표물 생성
+            targetElement = document.createElement('div');
+            targetElement.classList.add('target');
+            targetElement.style.width = `${size}px`;
+            targetElement.style.height = `${size}px`;
+            targetElement.style.left = `${x}px`;
+            targetElement.style.top = `${y}px`;
+            targetElement.style.backgroundColor = getRandomColor();
+            gameContainer.appendChild(targetElement);
+
+            // 애니메이션 효과 추가
+            setTimeout(() => {
+                targetElement.classList.add('show');
+            }, 10);
+
+            // 입력 방식에 따른 이벤트 리스너 추가
+            if (inputMethod === 'mouse') {
+                targetElement.addEventListener('click', handleTargetClick);
+            } else {
+                targetElement.addEventListener('touchstart', handleTargetClick);
+            }
+
+            // 목표물 크기 감소
+            let newSize = size - 3;
+            if (newSize < 10) newSize = 10;
+
+            setTimeout(() => {
+                if (targetElement) {
+                    targetElement.style.width = `${newSize}px`;
+                    targetElement.style.height = `${newSize}px`;
+                }
+            }, 1000);
+
+            // 다음 목표물 생성 시간 조절 (난이도 증가)
+            let nextTargetDelay = 1500 - (score * 30);
+            if (nextTargetDelay < 500) nextTargetDelay = 500;  // 최소 500ms
+
+            setTimeout(moveTarget, nextTargetDelay);
+        }
+
+        function moveTarget() {
+            if (!gameRunning || !targetElement) return;
+
+            // 목표물 위치 랜덤 변경
+            let size = parseInt(targetElement.style.width);
+            let x = Math.floor(Math.random() * (gameContainer.offsetWidth - size));
+            let y = Math.floor(Math.random() * (gameContainer.offsetHeight - size));
+
+            targetElement.style.left = `${x}px`;
+            targetElement.style.top = `${y}px`;
+        }
+
+        function handleTargetClick(event) {
+            if (!gameRunning) return;
+
+            // 터치 이벤트에서 기본 동작 방지
+            if (inputMethod === 'touch') {
+                event.preventDefault();
+            }
+
+            score++;
+            scoreElement.textContent = `점수: ${score}`;
+            targetElement.removeEventListener(inputMethod === 'mouse' ? 'click' : 'touchstart', handleTargetClick);
+            targetElement.remove();
+            createTarget();
+        }
+
+        function countdownTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = `남은 시간: ${timeLeft}초`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            gameRunning = false;
+            showFeedback();
+            startButton.disabled = false;
+            mouseBtn.disabled = false;
+            touchBtn.disabled = false;
+            resetGame();
+        }
+
+        function showFeedback() {
+            let feedbackMessage = "";
+
+            // 점수에 따라 다르게 피드백을 표시합니다.
+            if (score >= 30) {
+                feedbackMessage = "우와! 매우 뛰어난 조절력을 보여주셨습니다!";
+            } else if (score >= 15) {
+                feedbackMessage = "좋습니다! 조절력이 아주 훌륭해요!";
+            } else {
+                feedbackMessage = "조절 능력이 많이 약합니다. 시력 검사 받아보세요.";
+            }
+
+            // 피드백 메시지 설정
+            feedbackElement.textContent = feedbackMessage;
+
+            // 모달 창 표시
+            modal.style.display = 'flex';
+        }
+
+        function resetGame() {
+            // 모든 목표물 제거
+            gameContainer.innerHTML = '<div id="countdown"></div>';
+            // 초기 상태로 점수와 타이머 리셋
+            score = 0;
+            timeLeft = 30;
+            scoreElement.textContent = `점수: ${score}`;
+            timerElement.textContent = `남은 시간: ${timeLeft}초`;
+        }
+
+        function getRandomColor() {
+            let letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+
+</body>
+</html>
