@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>오피스 안경렌즈</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- 원하는 폰트 (예: 'Noto Sans KR') -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* 기본 리셋 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* 바디 & 폰트 */
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f9fafb;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* 헤더 */
+    header {
+      background-color: #3f72af; /* 메인 컬러 */
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+      position: relative; /* 뒤로가기 버튼의 절대 위치를 위한 설정 */
+    }
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    /* 뒤로가기 버튼 */
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .back-button:hover {
+      color: #d1d5db;
+    }
+
+    /* 본문 최대 너비 컨테이너 */
+    .content-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* 전체 글(설명) 섹션 */
+    .full-article {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+    .full-article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    .full-article h3 {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    .full-article ul {
+      margin-left: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .full-article li {
+      margin-bottom: 8px;
+    }
+    .full-article p {
+      margin-bottom: 15px;
+      color: #555;
+    }
+
+    /* 카드 섹션 (렌즈 정보) */
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    .card img {
+      width: 100%;
+      display: block;
+      object-fit: cover; /* 이미지 비율 유지 */
+    }
+    .card-content {
+      padding: 15px 20px 20px;
+    }
+    .card-content h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .card-content p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    /* 버튼 컨테이너 & 버튼 */
+    .button-container {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .button-container button {
+      margin: 8px;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      background-color: #112d4e;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .button-container button:hover {
+      background-color: #0b2442;
+    }
+
+    /* 시뮬레이션 영역 */
+    .simulation {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      margin-bottom: 40px;
+      /* Fixed height 제거하고 비율 유지 */
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 비율 */
+    }
+    .simulation .background,
+    .simulation .focus {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FCL7SU%2FbtsLCmKss2j%2FOoqN0pRhdb0Jnl7F9orNlk%2Fimg.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    .simulation .background {
+      filter: blur(5px);
+    }
+    .simulation .focus {
+      clip-path: circle(20% at 50% 50%); /* 퍼센트 단위로 변경 */
+      transition: clip-path 0.5s ease;
+    }
+    .simulation-description {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      color: #555;
+      font-size: 1rem;
+    }
+
+    /* 반응형 (태블릿 이하) */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.6rem;
+      }
+      .full-article {
+        padding: 20px;
+      }
+      .card-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+
+    /* 반응형 (모바일 이하) */
+    @media (max-width: 480px) {
+      .full-article {
+        padding: 15px;
+      }
+      .full-article h2 {
+        font-size: 1.25rem;
+      }
+      .full-article h3 {
+        font-size: 1.1rem;
+      }
+      .card-content h3 {
+        font-size: 1rem;
+      }
+      .button-container button {
+        width: 70%;
+        margin-bottom: 8px;
+      }
+      .simulation-description {
+        font-size: 0.9rem;
+      }
+      /* 뒤로가기 버튼 크기 조정 */
+      .back-button {
+        font-size: 1.2rem;
+        top: 15px;
+        left: 15px;
+      }
+    }
+
+     /* 문의 버튼 스타일링 */
+     .contact-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+        .contact-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .contact-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .contact-button.naver {
+            background-color: #03c75a; /* 네이버 초록색 */
+        }
+        .contact-button.kakao {
+            background-color: #fee500; /* 카카오톡 노란색 */
+            color: #000; /* 노란색 배경에 어울리는 검정색 텍스트 */
+        }
+        .contact-button i {
+            margin-right: 10px;
+        }
+
+  </style>
+</head>
+
+<body>
+  <!-- 헤더 -->
+  <header>
+    <!-- 뒤로가기 버튼 -->
+    <button class="back-button" onclick="window.history.back()" aria-label="뒤로가기">
+      &#8592; <!-- 좌측 화살표 Unicode 문자 -->
+    </button>
+    <h1>오피스 안경렌즈</h1>
+    <p>돋보기는 시야가 좀 좁아요.</p>
+  </header>
+
+  <!-- 전체 컨텐츠 래퍼 -->
+  <div class="content-wrapper">
+    <!-- 모든 글 표시 (full-article) -->
+    <section class="full-article">
+      <h2>돋보기(근용 안경)가 필요한 사람들</h2>
+      <p>
+        보통 가까운 거리를 볼 때 초점을 맞추기 어려운 경우가 많은데, 대표적으로 노안(老眼) 현상이 나타나는 분들이 이에 해당됩니다.
+        가까운 글씨나 사물을 뚜렷하게 보기 힘들거나, 작은 글씨를 볼 때 눈에 부담이 심해지는 분들이라면 돋보기가 도움이 될 수 있습니다.
+      </p>
+
+      <h3>1. 돋보기가 필요한 대표적인 경우</h3>
+      <ul>
+        <li><strong>노안이 진행된 중·장년층</strong></li>
+        <li><strong>세밀한 근거리 작업이 많은 직업·취미</strong></li>
+        <li><strong>기타 시력 저하로 작은 글씨가 어려운 경우</strong></li>
+      </ul>
+
+      <h3>2. 돋보기 vs 오피스 안경렌즈 vs 다초점 안경</h3>
+      <ul>
+        <li><strong>돋보기(단초점 근용 안경)</strong>: 30~40cm 근거리용</li>
+        <li><strong>오피스 안경렌즈(중·근거리 전용)</strong>: 사무환경(모니터·문서·대화)에 특화</li>
+        <li><strong>다초점 안경(Progressive)</strong>: 원거리~중거리~근거리까지 모두 커버</li>
+      </ul>
+
+      <h3>3. 돋보기 사용 시 주의사항</h3>
+      <ul>
+        <li>정확한 도수 측정</li>
+        <li>근거리 작업 중심 (장시간 착용보다는 필요 시 착용)</li>
+        <li>주기적인 시력 검진 (노안은 진행형)</li>
+      </ul>
+
+      <p>
+        근거리 시력 보정이 필요한 분들은 돋보기를 고려할 수 있지만,
+        본인의 업무·생활 환경에 따라 오피스 렌즈나 다초점 안경도 훌륭한 선택지가 될 수 있습니다.
+      </p>
+      <br>
+
+      <h2>오피스 안경렌즈란?</h2>
+      <p>
+        오피스 안경렌즈(Office Lens)는 근거리와 중거리 시야에 특화된 렌즈로,
+        컴퓨터 모니터, 회의실 스크린, 동료와의 대화 등 “실내 업무 거리”에서
+        편안한 시야를 제공하도록 설계된 안경렌즈입니다.
+      </p>
+
+      <h3>일반 다초점 렌즈와의 차이점</h3>
+      <ul>
+        <li>원거리 시야 대신 중거리와 근거리 영역을 넓게 확보</li>
+        <li>실내 사무환경에서 장시간 집중하는 분에게 특히 유용</li>
+      </ul>
+
+      <h2>오피스 안경렌즈는 왜 필요한가?</h2>
+      <ul>
+        <li><strong>눈 피로 감소</strong>: 장시간 모니터·문서 작업 시 부담 완화</li>
+        <li><strong>목·어깨 통증 개선</strong>: 고개를 과도하게 숙이거나 들지 않아도 됨</li>
+        <li><strong>업무 효율 및 집중력</strong> 상승</li>
+      </ul>
+
+      <h2>각 거리에 따라 필요한 사람들 (1m, 2m, 4m)</h2>
+      <h3>1) 1m 전후 - 근거리 시야 중심</h3>
+      <ul>
+        <li>모니터, 서류, 스마트폰 등을 집중해서 보는 사무직, 개발자, 연구직</li>
+        <li>오피스 렌즈 중에서도 1m 초점영역이 넓은 타입 권장</li>
+      </ul>
+
+      <h3>2) 2m 전후 - 중거리 시야 중심</h3>
+      <ul>
+        <li>회의, 화상회의, 대면 업무 등 1~2m 범위 활동이 잦은 직군</li>
+        <li>팀장, 관리자, 교육 담당자 등</li>
+      </ul>
+
+      <h3>3) 4m 전후 - 원거리·중거리 혼합</h3>
+      <ul>
+        <li>강의실, 매장, 세미나실 등 3~5m 시야가 자주 필요한 경우</li>
+        <li>강사, 교수, 매장 운영자 등</li>
+      </ul>
+
+      <h2>결론</h2>
+      <p>
+        오피스 렌즈는 실내 근거리~중거리 시야가 많은 현대 업무환경에서
+        매우 합리적인 선택이 될 수 있습니다.
+        전문 검안 상담을 통해 나에게 맞는 렌즈를 찾아보세요.
+      </p>
+    </section>
+
+    <!-- 카드 섹션 (예시) -->
+    <section class="card-container">
+      <div class="card">
+        <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FkUonf%2FbtsLDPdBj1j%2Fn0XoRWLjwBIR5IEwwn10u0%2Fimg.jpg" alt="근용 렌즈">
+        <div class="card-content">
+          <h3>근용 렌즈</h3>
+          <p>30~40cm 근거리 전용. 독서나 스마트폰 사용에 최적화.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F3Z3NI%2FbtsLDVkmOin%2FtxJDVb2pHRBXl7TRc5HpfK%2Fimg.jpg" alt="오피스 렌즈">
+        <div class="card-content">
+          <h3>오피스 렌즈</h3>
+          <p>1~4m 범위 시야 확보. PC, 실내 업무에 특화된 다초점 설계.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fo2s9g%2FbtsLCuak297%2FiXG3DI2rgxyKREEvPmEOOk%2Fimg.jpg" alt="일반 누진 렌즈">
+        <div class="card-content">
+          <h3>일반 누진 렌즈</h3>
+          <p>원거리~근거리까지 폭넓게 커버하지만 적응 기간이 필요.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 시뮬레이션 제어 버튼 -->
+    <section class="button-container">
+      <button onclick="updateSimulation(20, '근용 렌즈: 40~100cm 시야 범위')">근용렌즈</button>
+      <button onclick="updateSimulation(30, '1m 거리: 근거리 작업 시 최적화된 시야')">1m</button>
+      <button onclick="updateSimulation(40, '2m 거리: 중거리 작업에 적합한 시야')">2m</button>
+      <button onclick="updateSimulation(60, '4m 거리: 원거리 작업에 적합한 시야')">4m</button>
+    </section>
+
+    <!-- 시뮬레이션 영역 -->
+    <section class="simulation">
+      <div class="background"></div>
+      <div class="focus" id="focus"></div>
+      <div class="simulation-description" id="simulation-description">
+        1m 거리에서 오피스 렌즈를 사용할 때의 시야 범위
+      </div>
+    </section>
+
+    <div class="contact-buttons">
+      <a href="http://talk.naver.com/WC6690" target="_blank" class="contact-button naver" aria-label="네이버 톡톡 문의"><i class="fas fa-comments"></i> 네이버 톡톡 문의</a>
+      <a href="http://pf.kakao.com/_VZhMC" target="_blank" class="contact-button kakao" aria-label="카카오톡 문의"><i class="fas fa-comments"></i> 카카오톡 문의</a>
+  
+  </div> <!-- content-wrapper end -->
+
+  
+
+  <script>
+    /**
+     * 시야범위 변경 (시뮬레이션)
+     * @param {number} radiusPercent - 시야 범위의 반경(퍼센트)
+     * @param {string} descriptionText - 설명 문구
+     */
+    function updateSimulation(radiusPercent, descriptionText) {
+      const focusArea = document.getElementById('focus');
+      const simulationDescription = document.getElementById('simulation-description');
+      // clip-path 반경 조정 (퍼센트 단위)
+      focusArea.style.clipPath = `circle(${radiusPercent}% at 50% 50%)`;
+      // 텍스트 업데이트
+      simulationDescription.textContent = descriptionText;
+    }
+    // 초기값 (1m 설정)
+    updateSimulation(20, '1m 거리: 근거리 작업 시 최적화된 시야');
+  </script>
+</body>
+</html>
